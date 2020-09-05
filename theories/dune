@@ -1,0 +1,4 @@
+(coq.theory
+ (name ProgramVerificationTemplate)
+ (package coq-program-verification-template)
+ (synopsis "Coq program verification project template"))

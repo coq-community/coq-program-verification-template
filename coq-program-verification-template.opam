@@ -1,0 +1,31 @@
+opam-version: "2.0"
+maintainer: "palmskog@gmail.com"
+version: "dev"
+
+homepage: "https://github.com/palmskog/coq-program-verification-template"
+dev-repo: "git+https://github.com/palmskog/coq-program-verification-template.git"
+bug-reports: "https://github.com/palmskog/coq-program-verification-template/issues"
+license: "MIT"
+
+synopsis: "Coq program verification project template"
+description: """
+Template project for program verification in Coq.
+Uses the Verified Software Toolchain and a classic binary
+search program in C as an example."""
+
+build: ["dune" "build" "-p" name "-j" jobs]
+depends: [
+  "coq" {>= "8.11" & < "8.13~"}
+  "coq-compcert" {>= "3.7~" & < "3.8~"}
+  "coq-vst" {>= "2.6" & < "2.7~"}
+]
+
+tags: [
+  "category:Computer Science/Decision Procedures and Certified Algorithms/Correctness proofs of algorithms"
+  "keyword:binary search"
+  "keyword:program verification"
+  "logpath:ProgramVerificationTemplate"
+]
+authors: [
+  "Karl Palmskog"
+]
