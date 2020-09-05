@@ -2,3 +2,9 @@
  (name ProgramVerificationTemplate)
  (package coq-program-verification-template)
  (synopsis "Coq program verification project template"))
+
+(rule
+ (target binary_search.v)
+ (deps ../src/binary_search.c)
+ (action (run clightgen -o %{target} -normalize %{deps}))
+ (mode fallback))
