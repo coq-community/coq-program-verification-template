@@ -26,16 +26,16 @@ Definition binary_search_spec :=
      SEP (data_at sh (tarray tint (Zlength contents)) (map Vint (map Int.repr contents)) a).
 
 Definition binary_search_while_spec a sh contents len key :=
-EX low : Z, EX high : Z,
- PROP (0 <= low <= len;
-  Int.min_signed <= high < len;
-  In key contents -> In key (sublist low (high + 1) contents);
-  ~ In key contents ->
-   Forall (fun x => x < key) (sublist 0 low contents) /\
-   Forall (fun x => key < x) (sublist (high + 1) len contents))
- LOCAL (temp _a a; temp _key (Vint (Int.repr key));
-        temp _low (Vint (Int.repr low)); temp _high (Vint (Int.repr high)))
- SEP (data_at sh (tarray tint (Zlength contents)) (map Vint (map Int.repr contents)) a).
+ EX low : Z, EX high : Z,
+  PROP (0 <= low <= len;
+   Int.min_signed <= high < len;
+   In key contents -> In key (sublist low (high + 1) contents);
+   ~ In key contents ->
+    Forall (fun x => x < key) (sublist 0 low contents) /\
+    Forall (fun x => key < x) (sublist (high + 1) len contents))
+  LOCAL (temp _a a; temp _key (Vint (Int.repr key));
+         temp _low (Vint (Int.repr low)); temp _high (Vint (Int.repr high)))
+  SEP (data_at sh (tarray tint (Zlength contents)) (map Vint (map Int.repr contents)) a).
 
 Definition main_spec :=
  DECLARE _main
@@ -44,7 +44,7 @@ Definition main_spec :=
   POST [ tint ] main_post prog gv.
 
 Definition Gprog : funspecs := ltac:(with_library prog [binary_search_spec; main_spec]).
-  
+
 Lemma body_binary_search: semax_body Vprog Gprog f_binary_search binary_search_spec.
 Proof.
 start_function.
@@ -54,13 +54,10 @@ forward_while (binary_search_while_spec a sh contents len key).
 - entailer!.
   Exists 0; Exists (Zlength contents - 1).
   entailer!.
-  split; intros; [|split]; autorewrite with sublist in *.
-  * assumption.
-  * apply Forall_nil.
-  * apply Forall_nil.
+  split; intros; [|split]; autorewrite with sublist in *; auto.
 - entailer!.
 - assert (Hle: low <= high) by lia.
-  pose proof (mean_le_plus _ _  Hle) as Hdle.
+  pose proof (Zplus_div2_range _ _  Hle) as Hdle.
   assert (Heq: Int.unsigned (Int.shru (Int.repr (low + high)) (Int.repr 1)) =
     (low + high) / 2).
     rewrite Int.shru_div_two_p.
@@ -96,7 +93,8 @@ forward_while (binary_search_while_spec a sh contents len key).
       rewrite !Int.unsigned_repr; rep_lia.
     + assert (Hin: In (Znth ((low + high) / 2) contents) contents)
        by (eapply Znth_In; eauto; lia).
-      pose proof (Forall_forall (fun x : Z => Int.min_signed <= x <= Int.max_signed) contents) as HFA.
+      pose proof (Forall_forall (fun x : Z =>
+       Int.min_signed <= x <= Int.max_signed) contents) as HFA.
       simpl in HFA.
       destruct HFA as [HFA1 HFA2].
       apply (HFA1 H2 _ Hin).
@@ -125,7 +123,8 @@ forward_while (binary_search_while_spec a sh contents len key).
          rewrite Heq; reflexivity.
       -- assert (Hin: In (Znth ((low + high) / 2) contents) contents)
           by (eapply Znth_In; eauto; lia).
-         pose proof (Forall_forall (fun x : Z => Int.min_signed <= x <= Int.max_signed) contents) as HFA.
+         pose proof (Forall_forall (fun x : Z =>
+          Int.min_signed <= x <= Int.max_signed) contents) as HFA.
          simpl in HFA.
          destruct HFA as [HFA1 HFA2].
          apply (HFA1 H2 _ Hin).
@@ -150,7 +149,8 @@ forward_while (binary_search_while_spec a sh contents len key).
             rewrite Hkey in Hin; assumption.
       -- assert (Hin: In (Znth ((low + high) / 2) contents) contents)
           by (eapply Znth_In; eauto; lia).
-         pose proof (Forall_forall (fun x : Z => Int.min_signed <= x <= Int.max_signed) contents) as HFA.
+         pose proof (Forall_forall (fun x : Z =>
+          Int.min_signed <= x <= Int.max_signed) contents) as HFA.
          simpl in HFA.
          destruct HFA as [HFA1 HFA2].
          apply (HFA1 H2 _ Hin).
@@ -180,13 +180,13 @@ Definition four_contents := [1; 2; 3; 4].
 
 Lemma body_main : semax_body Vprog Gprog f_main main_spec.
 Proof.
-  start_function.
-  forward_call (gv _four,Ews,four_contents,4,3).
-  { split. auto.
-    change (Zlength four_contents) with 4.
-    repeat constructor; computable.
-  }
-  Intro r; forward.
+start_function.
+forward_call (gv _four,Ews,four_contents,4,3).
+{ split. auto.
+  change (Zlength four_contents) with 4.
+  repeat constructor; computable.
+}
+Intro r; forward.
 Qed.
 
 Existing Instance NullExtension.Espec.
