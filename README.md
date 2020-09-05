@@ -17,23 +17,33 @@ search program in C as an example.
 - Compatible Coq versions: 8.11 or later
 - Additional dependencies:
   - [CompCert](http://compcert.inria.fr) 3.7
-  - [VST](https://vst.cs.princeton.edu) 2.6
+  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.6
 - Coq namespace: `ProgramVerificationTemplate`
 
 ## Building instructions
+
+### Installing dependencies
+
+It is recommended to install Coq and other dependencies via
+[OPAM](https://opam.ocaml.org/doc/Install.html), for example:
+```shell
+opam install coq.8.12.0 coq-vst.2.6 coq-compcert
+```
+
+### Obtaining the project
 
 ```shell
 git clone https://github.com/palmskog/coq-program-verification-template.git
 cd coq-program-verification-template
 ```
 
-### Build the project using Make
+### Building the project using Make
 
 ```shell
 make   # or make -j <number-of-cores-on-your-machine> 
 ```
 
-### Build the project using Dune
+### Building the project using Dune
 
 ``` shell
 dune build
@@ -81,9 +91,9 @@ ccomp -o bsearch src/binary_search.c
 
 ## Caveats
 
-- Make and Dune builds are independent and orthogonal; either or both can
-  be used to build the project. However, for local development, it is
-  recommended to use Make, since Coq IDEs may not be able find files compiled by Dune.
+- Make and Dune builds are independent; either can be used to build
+  the project. However, for local development, it is recommended to use Make,
+  since Coq IDEs may not be able find files compiled by Dune.
 - The Coq representation of the C program is kept in version control due
   to licensing concerns for CompCert's `clightgen` tool.
 
