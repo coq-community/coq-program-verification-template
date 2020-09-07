@@ -24,9 +24,10 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
-USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. *)
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*)
 
-From VST Require Import floyd.proofauto floyd.sublist.
+From VST Require Import floyd.proofauto.
 
 Fixpoint sorted (l : list Z) : Prop :=
  match l with
@@ -45,8 +46,7 @@ Definition insertion_point (ip : Z)  (l : list Z) (key : Z) : Prop :=
 
 Lemma sublist_nil1 : forall A i j (l : list A), j <= i -> sublist i j l = [].
 Proof.
-intros *.
-apply sublist_nil_gen.
+intros A i j l; apply sublist_nil_gen.
 Qed.
 
 Lemma Znth_In : forall A (d: Inhabitant A) i (l : list A) x,
@@ -57,8 +57,7 @@ Proof.
 unfold Znth; intros A d i l x Hrange Heq.
 destruct (zlt i 0); [lia|].
 subst; apply nth_In.
-rewrite Zlength_correct in Hrange; auto.
-lia.
+rewrite Zlength_correct in Hrange; lia.
 Qed.
 
 Lemma In_Znth : forall A (d: Inhabitant A) (l : list A) x,
@@ -73,13 +72,13 @@ exists (Z.of_nat n); split.
   rewrite Nat2Z.id; auto.
 Qed.
 
-Fixpoint sorted2 l : Prop :=
+Fixpoint sorted' l : Prop :=
  match l with
  | [] => True
- | x :: rest => Forall (fun y => x <= y) rest /\ sorted2 rest
+ | x :: rest => Forall (fun y => x <= y) rest /\ sorted' rest
  end.
 
-Lemma sorted_sorted2 : forall l, sorted l <-> sorted2 l.
+Lemma sorted_sorted' : forall l, sorted l <-> sorted' l.
 Proof.
 induction l; simpl.
 - reflexivity.
@@ -100,9 +99,9 @@ Lemma sorted_mono : forall l i j,
 Proof.
 induction l; intros i j Hsort Hi Hj.
 - rewrite !Znth_nil; lia.
-- rewrite sorted_sorted2 in Hsort.
+- rewrite sorted_sorted' in Hsort.
   destruct Hsort as [H9 Hsort].
-  rewrite <- sorted_sorted2 in Hsort.
+  rewrite <- sorted_sorted' in Hsort.
   rewrite Forall_forall in H9.
   rewrite Zlength_cons in Hj.
   destruct (zeq i 0).
@@ -186,8 +185,8 @@ Lemma sublist_In_sublist : forall A (l : list A) x lo hi lo' hi',
  In x (sublist lo hi l).
 Proof.
 intros A l x lo hi lo' hi' Hlo Hhi Hsub.
-apply sublist_In with (lo0 := lo' - lo)(hi0 := hi' - lo); rewrite sublist_sublist;
-  try split; try lia.
+apply sublist_In with (lo0 := lo' - lo) (hi0 := hi' - lo); rewrite sublist_sublist;
+ try split; try lia.
 - repeat rewrite Z.sub_simpl_r; auto.
 - destruct (Z_le_dec hi' lo'); try lia.
   rewrite sublist_nil1 in *; auto; simpl in *; contradiction.

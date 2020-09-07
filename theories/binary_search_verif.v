@@ -1,4 +1,4 @@
-From VST Require Import floyd.proofauto floyd.sublist.
+From VST Require Import floyd.proofauto.
 From ProgramVerificationTemplate Require Import binary_search_theory binary_search.
 
 Ltac do_compute_expr_warning::=idtac.
@@ -45,7 +45,7 @@ Definition main_spec :=
 
 Definition Gprog : funspecs := ltac:(with_library prog [binary_search_spec; main_spec]).
 
-Lemma body_binary_search: semax_body Vprog Gprog f_binary_search binary_search_spec.
+Lemma body_binary_search : semax_body Vprog Gprog f_binary_search binary_search_spec.
 Proof.
 start_function.
 forward.
@@ -54,7 +54,10 @@ forward_while (binary_search_while_spec a sh contents len key).
 - entailer!.
   Exists 0; Exists (Zlength contents - 1).
   entailer!.
-  split; intros; [|split]; autorewrite with sublist in *; auto.
+  assert (Heql: Zlength contents - 1 + 1 = Zlength contents) by lia.
+  rewrite Heql; clear Heql.
+  rewrite sublist_same; auto.
+  rewrite sublist_nil; rewrite sublist_nil; auto.
 - entailer!.
 - assert (Hle: low <= high) by lia.
   pose proof (Zplus_div2_range _ _  Hle) as Hdle.
@@ -103,7 +106,8 @@ forward_while (binary_search_while_spec a sh contents len key).
       entailer!.
       Exists (low,(low + high)/2 - 1).
       entailer!.
-      autorewrite with sublist in *.
+      assert (Heqlh: (low + high) / 2 - 1 + 1 = (low + high) / 2) by lia.
+      rewrite Heqlh; clear Heqlh.
       rewrite Heq in H9.
       split; [rep_lia|]; rewrite !Int.signed_repr in H9; [split;[|split]|].
       -- intro H0.
