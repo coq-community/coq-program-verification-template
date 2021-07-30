@@ -5,9 +5,6 @@
 [action-shield]: https://github.com/palmskog/coq-program-verification-template/workflows/CI/badge.svg?branch=master
 [action-link]: https://github.com/palmskog/coq-program-verification-template/actions?query=workflow%3ACI
 
-
-
-
 Template project for program verification in Coq.
 Uses the Verified Software Toolchain and a classic binary
 search program in C as an example.
@@ -17,10 +14,10 @@ search program in C as an example.
 - Author(s):
   - Karl Palmskog
 - License: [MIT License](LICENSE)
-- Compatible Coq versions: 8.11 or later
+- Compatible Coq versions: 8.12 or later
 - Additional dependencies:
-  - [CompCert](http://compcert.inria.fr) 3.7
-  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.6
+  - [CompCert](http://compcert.inria.fr) 3.9
+  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.8
 - Coq namespace: `ProgramVerificationTemplate`
 
 ## Building instructions
@@ -31,7 +28,7 @@ The recommended way to install Coq and other dependencies is via
 [OPAM](https://opam.ocaml.org/doc/Install.html), for example:
 ```shell
 opam repo add coq-released https://coq.inria.fr/opam/released
-opam install coq.8.12.0 coq-vst.2.6 coq-compcert
+opam install coq.8.13.2 coq-compcert.3.9 coq-vst.2.8
 ```
 
 ### Obtaining the project

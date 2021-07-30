@@ -1,8 +1,6 @@
 From VST Require Import floyd.proofauto.
 From ProgramVerificationTemplate Require Import binary_search_theory binary_search.
 
-Ltac do_compute_expr_warning::=idtac.
-
 Instance CompSpecs : compspecs. make_compspecs prog. Defined.
 Definition Vprog : varspecs.  mk_varspecs prog. Defined.
 
@@ -57,28 +55,31 @@ forward_while (binary_search_while_spec a sh contents len key).
   rewrite Heql; clear Heql.
   rewrite sublist_same; auto.
   list_simplify; [rep_lia|].
-  rewrite sublist_nil; rewrite sublist_nil; auto.
+  list_solve.
 - entailer!.
 - assert (Hle: low <= high) by lia.
   pose proof (Zplus_div2_range _ _  Hle) as Hdle.
   assert (Heq: Int.unsigned (Int.shru (Int.repr (low + high)) (Int.repr 1)) =
-    (low + high) / 2).
+    (low + high) / 2). {
     rewrite Int.shru_div_two_p.
     change (two_p (Int.unsigned (Int.repr 1))) with 2.
     rewrite !Int.unsigned_repr; try rep_lia.
-    rewrite !Int.unsigned_repr; rep_lia.
+    rewrite !Int.unsigned_repr; rep_lia. 
+  }
   assert (Heq': Int.signed (Int.shru (Int.repr (low + high)) (Int.repr 1)) =
-   (low + high) / 2).
+   (low + high) / 2). {
     rewrite Int.shru_div_two_p.
     change (two_p (Int.unsigned (Int.repr 1))) with 2.
     rewrite !Int.signed_repr; try rep_lia; [rewrite !Int.unsigned_repr; rep_lia|].
     rewrite !Int.unsigned_repr; rep_lia.
+  }
   assert_PROP (0 <= Int.unsigned (Int.shru (Int.repr (low + high)) (Int.repr 1)) /\
    Int.unsigned (Int.shru (Int.repr (low + high)) (Int.repr 1)) < Zlength (map Int.repr contents))
-   as Hlen.
+   as Hlen. {
     entailer!.
     rewrite Heq.
     list_solve.
+  }
   assert (Hlen': 0 <= Int.unsigned (Int.shru (Int.repr (low + high)) (Int.repr 1)) < Zlength contents)
    by list_solve.
   forward.
@@ -88,7 +89,6 @@ forward_while (binary_search_while_spec a sh contents len key).
     entailer!.
     Exists ((low + high)/2 + 1,high).
     entailer!.
-    rewrite Heq in H7.
     split; [lia|]; rewrite !Int.signed_repr in H7; [split;[|split]|].
     + intro Hkey; specialize (H5 Hkey).
       eapply In_sorted_gt; eauto; list_solve.
@@ -106,9 +106,7 @@ forward_while (binary_search_while_spec a sh contents len key).
        by (eapply Znth_In; eauto; list_solve).
       pose proof (Forall_forall (fun x : Z =>
        Int.min_signed <= x <= Int.max_signed) contents) as HFA.
-      simpl in HFA.
-      destruct HFA as [HFA1 HFA2].
-      apply (HFA1 H1 _ Hin).
+      apply HFA; list_solve.
   * forward_if.
     + forward.
       entailer!.
@@ -116,7 +114,6 @@ forward_while (binary_search_while_spec a sh contents len key).
       entailer!.
       assert (Heqlh: (low + high) / 2 - 1 + 1 = (low + high) / 2) by lia.
       rewrite Heqlh; clear Heqlh.
-      rewrite Heq in H8.
       split; [rep_lia|]; rewrite !Int.signed_repr in H8; [split;[|split]|].
       -- intro Hkey.
          specialize (H5 Hkey).
@@ -126,10 +123,8 @@ forward_while (binary_search_while_spec a sh contents len key).
          destruct H6 as [Hl Hh].
          split; [assumption|].
          apply Forall_forall; intros.
-         revert H6.
-         list_simplify.
-         revert H6.
-         apply Znth_gt_sublist_gt; auto; lia.
+         apply (Znth_gt_sublist_gt contents ((low + high) / 2)); auto;
+         [lia|list_solve|list_solve].
       -- f_equal.
          unfold Int.sub.
          f_equal.
@@ -139,14 +134,12 @@ forward_while (binary_search_while_spec a sh contents len key).
           by (eapply Znth_In; eauto; list_solve).
          pose proof (Forall_forall (fun x : Z =>
           Int.min_signed <= x <= Int.max_signed) contents) as HFA.
-         simpl in HFA.
-         destruct HFA as [HFA1 HFA2].
-         apply (HFA1 H1 _ Hin).
+         apply HFA; list_solve.
     + forward.
       Exists ((low + high) / 2).
       entailer!.
       revert H7 H8.
-      rewrite Heq.
+      rewrite Heq'.
       rewrite !Int.signed_repr.
       -- intros H7 H8.
          assert (Hkey: Znth ((low + high) / 2) contents = key) by lia.
@@ -165,9 +158,7 @@ forward_while (binary_search_while_spec a sh contents len key).
           by (eapply Znth_In; eauto; list_solve).
          pose proof (Forall_forall (fun x : Z =>
           Int.min_signed <= x <= Int.max_signed) contents) as HFA.
-         simpl in HFA.
-         destruct HFA as [HFA1 HFA2].
-         apply (HFA1 H1 _ Hin).
+         apply HFA; list_solve.
 - forward.
   + entailer!.
     set (j := Int.signed Int.zero) in *; compute in j; subst j.
@@ -196,11 +187,8 @@ Lemma body_main : semax_body Vprog Gprog f_main main_spec.
 Proof.
 start_function.
 forward_call (gv _four,Ews,four_contents,4,3).
-{ split. auto.
-  change (Zlength four_contents) with 4.
-  repeat constructor; computable.
-}
-Intro r; forward.
+- split; repeat constructor; computable.
+- Intro r; forward.
 Qed.
 
 Existing Instance NullExtension.Espec.

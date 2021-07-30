@@ -55,7 +55,7 @@ Lemma Znth_In : forall A (d: Inhabitant A) i (l : list A) x,
  In x l.
 Proof.
 unfold Znth; intros A d i l x Hrange Heq.
-destruct (zlt i 0); [lia|].
+destruct (Z_lt_dec i 0); [lia|].
 subst; apply nth_In.
 rewrite Zlength_correct in Hrange; lia.
 Qed.
@@ -68,7 +68,7 @@ unfold Znth; intros.
 apply In_nth with (d := d) in H; destruct H as (n & ? & ?).
 exists (Z.of_nat n); split.
 - rewrite Zlength_correct; lia.
-- destruct (zlt (Z.of_nat n) 0); [lia|].
+- destruct (Z_lt_dec (Z.of_nat n) 0); [lia|].
   rewrite Nat2Z.id; auto.
 Qed.
 
