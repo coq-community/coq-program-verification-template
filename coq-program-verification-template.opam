@@ -15,9 +15,9 @@ search program in C as an example."""
 
 build: ["dune" "build" "-p" name "-j" jobs]
 depends: [
-  "coq" {>= "8.11" & < "8.13~"}
-  "coq-compcert" {>= "3.7~" & < "3.8~"}
-  "coq-vst" {>= "2.6" & < "2.7~"}
+  "coq" {>= "8.12" & < "8.14~"}
+  "coq-compcert" {= "3.9"}
+  "coq-vst" {= "2.8"}
 ]
 
 tags: [
