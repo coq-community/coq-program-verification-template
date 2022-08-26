@@ -185,7 +185,7 @@ Lemma sublist_In_sublist : forall A (l : list A) x lo hi lo' hi',
  In x (sublist lo hi l).
 Proof.
 intros A l x lo hi lo' hi' Hlo Hhi Hsub.
-apply sublist_In with (lo0 := lo' - lo) (hi0 := hi' - lo); rewrite sublist_sublist;
+apply (sublist_In (lo' - lo) (hi' - lo)); rewrite sublist_sublist;
  try split; try lia.
 - repeat rewrite Z.sub_simpl_r; auto.
 - destruct (Z_le_dec hi' lo'); try lia.
