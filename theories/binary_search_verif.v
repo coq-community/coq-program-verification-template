@@ -1,7 +1,7 @@
 From VST Require Import floyd.proofauto.
 From ProgramVerificationTemplate Require Import binary_search_theory binary_search.
 
-Instance CompSpecs : compspecs. make_compspecs prog. Defined.
+#[export] Instance CompSpecs : compspecs. make_compspecs prog. Defined.
 Definition Vprog : varspecs.  mk_varspecs prog. Defined.
 
 Definition binary_search_spec :=
@@ -191,7 +191,7 @@ forward_call (gv _four,Ews,four_contents,4,3).
 - Intro r; forward.
 Qed.
 
-Existing Instance NullExtension.Espec.
+#[export] Existing Instance NullExtension.Espec.
 
 Lemma prog_correct:
   semax_prog prog tt Vprog Gprog.
