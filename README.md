@@ -14,10 +14,10 @@ search program in C as an example.
 - Author(s):
   - Karl Palmskog
 - License: [MIT License](LICENSE)
-- Compatible Coq versions: 8.13 or later
+- Compatible Coq versions: 8.14 or later
 - Additional dependencies:
   - [CompCert](http://compcert.inria.fr) 3.11
-  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.10
+  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.10 or later
 - Coq namespace: `ProgramVerificationTemplate`
 
 ## Building instructions
@@ -28,7 +28,7 @@ The recommended way to install Coq and other dependencies is via
 [OPAM](https://opam.ocaml.org/doc/Install.html), for example:
 ```shell
 opam repo add coq-released https://coq.inria.fr/opam/released
-opam install coq.8.15.2 coq-compcert.3.11 coq-vst.2.10
+opam install coq.8.15.2 coq-compcert.3.11 coq-vst.2.11
 ```
 
 ### Obtaining the project

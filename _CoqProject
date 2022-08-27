@@ -1,4 +1,4 @@
--R theories ProgramVerificationTemplate
+-Q theories ProgramVerificationTemplate
 
 theories/binary_search.v
 theories/binary_search_theory.v
