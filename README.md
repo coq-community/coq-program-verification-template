@@ -1,9 +1,9 @@
 # Coq Program Verification Template
 
-[![CI][action-shield]][action-link]
+[![Docker CI][docker-action-shield]][docker-action-link]
 
-[action-shield]: https://github.com/palmskog/coq-program-verification-template/workflows/CI/badge.svg?branch=master
-[action-link]: https://github.com/palmskog/coq-program-verification-template/actions?query=workflow%3ACI
+[docker-action-shield]: https://github.com/palmskog/coq-program-verification-template/workflows/Docker%20CI/badge.svg?branch=master
+[docker-action-link]: https://github.com/palmskog/coq-program-verification-template/actions?query=workflow:"Docker%20CI"
 
 Template project for program verification in Coq.
 Uses the Verified Software Toolchain and a classic binary
@@ -13,7 +13,7 @@ search program in C as an example.
 
 - Author(s):
   - Karl Palmskog
-- License: [MIT License](LICENSE)
+- License: [Unlicense](LICENSE)
 - Compatible Coq versions: 8.14 or later
 - Additional dependencies:
   - [CompCert](http://compcert.inria.fr) 3.12 or later
@@ -40,6 +40,7 @@ cd coq-program-verification-template
 
 ### Option 1: building the project using coq_makefile
 
+With make and the [coq_makefile tool][coq-makefile-url] bundled with Coq:
 ```shell
 make   # or make -j <number-of-cores-on-your-machine> 
 ```
@@ -75,8 +76,8 @@ ccomp -o bsearch src/binary_search.c
 
 - [`coq-program-verification-template.opam`](coq-program-verification-template.opam):
   Project [opam package][opam-url] definition, including dependencies.
-- [`_CoqProject`](_CoqProject): File used by Coq IDEs to determine the Coq logical path,
-  and by the Make-based build to obtain the list of files to include. 
+- [`_CoqProject`](_CoqProject): File used by Coq editors to determine the Coq logical path,
+  and by the make-based build to obtain the list of files to include. 
 - [`.github/workflows/docker-action.yml`](.github/workflows/docker-action.yml):
   [GitHub Actions][github-actions-ci-url] continuous integration configuration for Coq,
   using the opam package definition.
@@ -97,9 +98,9 @@ ccomp -o bsearch src/binary_search.c
 ### coq_makefile vs. Dune
 
 coq_makefile and Dune builds are independent. However, for local development,
-it is recommended to use coq_makefile, since Coq IDEs may not be able find
+it is recommended to use coq_makefile, since Coq editors may not be able find
 files compiled by Dune. Due to its build hygiene requirements, Dune will
-refuse to build when compiled (`.vo`) files are present in `theories`;
+refuse to build when binary (`.vo`) files are present in `theories`;
 run `make clean` to remove them.
 
 ### Generating Clight for Coq
