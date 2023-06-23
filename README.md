@@ -2,8 +2,8 @@
 
 [![Docker CI][docker-action-shield]][docker-action-link]
 
-[docker-action-shield]: https://github.com/palmskog/coq-program-verification-template/workflows/Docker%20CI/badge.svg?branch=master
-[docker-action-link]: https://github.com/palmskog/coq-program-verification-template/actions?query=workflow:"Docker%20CI"
+[docker-action-shield]: https://github.com/coq-community/coq-program-verification-template/workflows/Docker%20CI/badge.svg?branch=master
+[docker-action-link]: https://github.com/coq-community/coq-program-verification-template/actions?query=workflow:"Docker%20CI"
 
 Template project for program verification in Coq.
 Uses the Verified Software Toolchain and a classic binary
@@ -11,9 +11,7 @@ search program in C as an example.
 
 ## Meta
 
-- Author(s):
-  - Karl Palmskog
-- License: [Unlicense](LICENSE)
+- License: [Unlicense](LICENSE) (change to your license of choice)
 - Compatible Coq versions: 8.14 or later
 - Additional dependencies:
   - [CompCert](http://compcert.inria.fr) 3.12 or later
@@ -25,7 +23,8 @@ search program in C as an example.
 ### Installing dependencies
 
 The recommended way to install Coq and other dependencies is via
-[opam](https://opam.ocaml.org/doc/Install.html), for example:
+the [Coq Platform](https://github.com/coq/platform/releases/latest).
+To install dependencies manually via [opam](https://opam.ocaml.org/doc/Install.html):
 ```shell
 opam repo add coq-released https://coq.inria.fr/opam/released
 opam install coq.8.16.1 coq-compcert.3.12 coq-vst.2.12
@@ -34,7 +33,7 @@ opam install coq.8.16.1 coq-compcert.3.12 coq-vst.2.12
 ### Obtaining the project
 
 ```shell
-git clone https://github.com/palmskog/coq-program-verification-template.git
+git clone https://github.com/coq-community/coq-program-verification-template.git
 cd coq-program-verification-template
 ```
 
