@@ -16,8 +16,8 @@ search program in C as an example.
 - License: [MIT License](LICENSE)
 - Compatible Coq versions: 8.14 or later
 - Additional dependencies:
-  - [CompCert](http://compcert.inria.fr) 3.11
-  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.10 or later
+  - [CompCert](http://compcert.inria.fr) 3.12 or later
+  - [Verified Software Toolchain](https://vst.cs.princeton.edu) 2.12 or later
 - Coq namespace: `ProgramVerificationTemplate`
 
 ## Building instructions
@@ -25,10 +25,10 @@ search program in C as an example.
 ### Installing dependencies
 
 The recommended way to install Coq and other dependencies is via
-[OPAM](https://opam.ocaml.org/doc/Install.html), for example:
+[opam](https://opam.ocaml.org/doc/Install.html), for example:
 ```shell
 opam repo add coq-released https://coq.inria.fr/opam/released
-opam install coq.8.15.2 coq-compcert.3.11 coq-vst.2.11
+opam install coq.8.16.1 coq-compcert.3.12 coq-vst.2.12
 ```
 
 ### Obtaining the project
@@ -46,7 +46,8 @@ make   # or make -j <number-of-cores-on-your-machine>
 
 ### Option 2: building the project using Dune
 
-``` shell
+With the [Dune build system][dune-url], version 3.8.1 or later:
+```shell
 dune build
 ```
 
@@ -61,7 +62,7 @@ ccomp -o bsearch src/binary_search.c
 ### Core files
 
 - [`src/binary_search.c`](src/binary_search.c): C program that performs binary
-  search in a sorted array, adapted from [Joshua Bloch's Java version][binary-search-url].
+  search in a sorted array, inspired by [Joshua Bloch's Java version][binary-search-url].
 - [`theories/binary_search.v`](theories/binary_search.v): Coq representation
   of the binary search C program in [CompCert's Clight language][compcert-c-url].
 - [`theories/binary_search_theory.v`](theories/binary_search_theory.v): General
@@ -73,11 +74,12 @@ ccomp -o bsearch src/binary_search.c
 ### General configuration
 
 - [`coq-program-verification-template.opam`](coq-program-verification-template.opam):
-  Project [OPAM package][opam-url] definition, including dependencies.
+  Project [opam package][opam-url] definition, including dependencies.
 - [`_CoqProject`](_CoqProject): File used by Coq IDEs to determine the Coq logical path,
   and by the Make-based build to obtain the list of files to include. 
-- [`.github/workflows/coq-ci.yml`](.github/workflows/coq-ci.yml): [GitHub Actions][github-actions-ci-url]
-  continuous integration configuration for Coq, using the OPAM package definition.
+- [`.github/workflows/docker-action.yml`](.github/workflows/docker-action.yml):
+  [GitHub Actions][github-actions-ci-url] continuous integration configuration for Coq,
+  using the opam package definition.
 
 ### Make configuration
 
