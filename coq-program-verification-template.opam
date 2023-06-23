@@ -15,15 +15,16 @@ search program in C as an example."""
 
 build: ["dune" "build" "-p" name "-j" jobs]
 depends: [
-  "coq" {>= "8.14" & < "8.17~"}
-  "coq-compcert" {= "3.11"}
-  "coq-vst" {>= "2.10"}
+  "dune" {>= "3.8.1"}
+  "coq" {>= "8.14"}
+  "coq-compcert" {>= "3.12"}
+  "coq-vst" {>= "2.12"}
 ]
 
 tags: [
   "category:Computer Science/Decision Procedures and Certified Algorithms/Correctness proofs of algorithms"
-  "keyword:binary search"
   "keyword:program verification"
+  "keyword:your keyword"
   "logpath:ProgramVerificationTemplate"
 ]
 authors: [

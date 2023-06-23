@@ -1,4 +1,4 @@
-name: CI
+name: Docker CI
 
 on:
   push:
@@ -15,11 +15,12 @@ jobs:
     strategy:
       matrix:
         image:
-          - 'coqorg/coq:8.15'
-          - 'coqorg/coq:8.14'
+          - 'coqorg/coq:dev'
+          - 'coqorg/coq:8.17'
+          - 'coqorg/coq:8.16'
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: coq-community/docker-coq-action@v1
         with:
           opam_file: 'coq-program-verification-template.opam'
