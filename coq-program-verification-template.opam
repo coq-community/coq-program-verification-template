@@ -1,11 +1,11 @@
 opam-version: "2.0"
-maintainer: "palmskog@gmail.com"
+maintainer: "you@example.com"
 version: "dev"
 
-homepage: "https://github.com/palmskog/coq-program-verification-template"
-dev-repo: "git+https://github.com/palmskog/coq-program-verification-template.git"
-bug-reports: "https://github.com/palmskog/coq-program-verification-template/issues"
-license: "MIT"
+homepage: "https://github.com/coq-community/coq-program-verification-template"
+dev-repo: "git+https://github.com/coq-community/coq-program-verification-template.git"
+bug-reports: "https://github.com/coq-community/coq-program-verification-template/issues"
+license: "SPDX-identifier-for-your-license"
 
 synopsis: "Coq program verification project template"
 description: """
@@ -28,5 +28,6 @@ tags: [
   "logpath:ProgramVerificationTemplate"
 ]
 authors: [
-  "Karl Palmskog"
+  "Your Name"
+  "Another Optional Name"
 ]

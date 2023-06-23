@@ -67,10 +67,11 @@ ccomp -o bsearch src/binary_search.c
 - [`theories/binary_search.v`](theories/binary_search.v): Coq representation
   of the binary search C program in [CompCert's Clight language][compcert-c-url].
 - [`theories/binary_search_theory.v`](theories/binary_search_theory.v): General
-  Coq definitions and facts relevant to binary search.
+  Coq definitions and facts relevant to binary search, adapted from code in the
+  [Verified Software Toolchain][vst-url].
 - [`theories/binary_search_verif.v`](theories/binary_search_verif.v): Contract for the
-  C program following the [Java specification][java-specification-url] and a Coq proof using the
-  [Verified Software Toolchain][vst-url] that the program upholds the contract.
+  Clight program following the [Java specification][java-specification-url] and a
+  Coq proof using the Verified Software Toolchain that the program upholds the contract.
 
 ### General configuration
 
@@ -116,7 +117,7 @@ clightgen -o theories/binary_search.v -normalize src/binary_search.c
 [binary-search-url]: http://ai.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html
 [java-specification-url]: https://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/src/java.base/share/classes/java/util/Arrays.java#l1846
 [vst-url]: https://vst.cs.princeton.edu
-[compcert-c-url]: http://compcert.inria.fr/compcert-C.html
+[compcert-c-url]: https://compcert.org/compcert-C.html
 [coq-makefile-url]: https://coq.inria.fr/refman/practical-tools/utilities.html#building-a-coq-project-with-coq-makefile
 [github-actions-ci-url]: https://github.com/coq-community/docker-coq-action
 [opam-url]: https://opam.ocaml.org
